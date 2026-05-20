@@ -5,4 +5,7 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(mm14 pre_assembly.c
         macro_helper.c
-        macro_helper.h)
+        macro_helper.h
+        first_pass.c
+        assembler_table.c
+        assembler_table.h)

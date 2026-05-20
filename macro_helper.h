@@ -16,6 +16,7 @@ typedef struct {
     int capacity;
 } MacroList;
 
+
 void init_macro_list(MacroList *list);
 void add_macro(MacroList *list, const char *name);
 Macro *find_macro(MacroList *list, const char *name);

@@ -1,5 +1,5 @@
 MAIN: add r3, LIST
-mcro GEN_MC
+mcro .data
  lea STR, r6
  inc r6
  mov r3, K
