@@ -8,4 +8,5 @@ add_executable(mm14 pre_assembly.c
         macro_helper.h
         first_pass.c
         assembler_table.c
-        assembler_table.h)
+        assembler_table.h
+        opcode_list.c)

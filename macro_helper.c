@@ -27,7 +27,9 @@ const int reserved_key_words_length =
 
 int is_valid_macro_name(const char *name, int flag) {
 
-    for (int i = 0; i < reserved_key_words_length; i++) {
+    int i = 0;
+
+    for (; i < reserved_key_words_length; i++) {
         if (strcmp(name, reserved_key_words[i]) == 0 && flag == 0) {
             printf("Invalid macro name! cannot use '%s' as a macro name!",
                 reserved_key_words[i]);
@@ -87,8 +89,8 @@ void add_macro(MacroList *list, const char *name) {
 }
 
 Macro *find_macro(MacroList *list, const char *name) {
-
-    for (int i = 0; i < list->count; i++) {
+    int i = 0;
+    for (; i < list->count; i++) {
         if (strcmp(list->items[i].name, name) == 0) {
             return  &list->items[i];
         }
@@ -114,7 +116,8 @@ void add_line_to_macro(Macro *m, const char *line) {
 void free_macro(Macro *m) {
     free(m->name);
 
-    for (int i = 0; i < m->line_count; i++) {
+    int i = 0;
+    for (; i < m->line_count; i++) {
         free(m->lines[i]);
     }
 
@@ -122,7 +125,10 @@ void free_macro(Macro *m) {
 }
 
 void free_macro_list(MacroList *list) {
-    for (int i = 0; i < list->count; i++) {
+
+    int i = 0;
+
+    for (; i < list->count; i++) {
         free_macro(&list->items[i]);
     }
 

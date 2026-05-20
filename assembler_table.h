@@ -1,5 +1,5 @@
-#ifndef SYMBOL_TABLE_H
-#define SYMBOL_TABLE_H
+#ifndef ASSEMBLER_TABLE_H
+#define ASSEMBLER_TABLE_H
 
 #define MAX_SYMBOLS 100
 #define MAX_LABEL_LEN 31
@@ -18,20 +18,20 @@ typedef struct {
 typedef struct {
     Symbol symbols[MAX_SYMBOLS];
     int count;
-} SymbolTable;
+} AssemblerTable;
 
 /* functions */
 
-void init_symbol_table(SymbolTable *table);
+void init_assembler_table(AssemblerTable *table);
 
-int add_symbol(SymbolTable *table,
+int add_symbol(AssemblerTable *table,
                const char *name,
                int value,
                int attributes);
 
-Symbol *find_symbol(SymbolTable *table,
+Symbol *find_symbol(AssemblerTable *table,
                     const char *name);
 
-void print_symbol_table(SymbolTable *table);
+void print_assembler_table(AssemblerTable *table);
 
 #endif
