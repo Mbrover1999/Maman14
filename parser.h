@@ -5,6 +5,7 @@
 #define MAX_OPCODE_LEN 10
 #define MAX_OPERANDS 2
 #define MAX_OPERAND_LEN 31
+#include "macro_helper.h"
 
 typedef enum {
     LINE_EMPTY,
@@ -26,6 +27,6 @@ typedef struct {
     int operand_count;
 } ParsedLine;
 
-int parse_line(const char *line, ParsedLine *result);
+int parse_line(const char *line, ParsedLine *result, MacroList *macros);
 
 #endif

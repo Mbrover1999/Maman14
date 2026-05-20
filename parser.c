@@ -5,6 +5,7 @@
 
 #include <ctype.h>
 
+#include "macro_helper.h"
 #include "opcode_list.h"
 
 void trim(char *str) {
@@ -23,7 +24,6 @@ void trim(char *str) {
         return;
     }
 
-    end = str + strlen(str) - 1;
 
     /* find end */
     end = str + strlen(str) - 1;
@@ -37,7 +37,7 @@ void trim(char *str) {
           }
 }
 
-int is_valid_label(const char *label) {
+int is_valid_label(const char *label, MacroList *macros) {
 
     if (!isalpha(label[0])) {
         return 0;
@@ -70,10 +70,14 @@ int is_valid_label(const char *label) {
         return 0;
     }
 
+    if (find_macro(macros, label) != NULL) {
+        return 0;
+    }
+
     return 1;
 }
 
-int parse_line(const char *line, ParsedLine *result) {
+int parse_line(const char *line, ParsedLine *result, MacroList *macros) {
 
     char buffer[256];
     char *ptr;
@@ -115,7 +119,7 @@ int parse_line(const char *line, ParsedLine *result) {
         result->label[len] = '\0';
         trim(result->label);
 
-        if (!is_valid_label(result->label)) {
+        if (!is_valid_label(result->label, macros)) {
             result->type = LINE_ERROR;
             return 0;
         }
