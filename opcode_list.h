@@ -7,18 +7,11 @@
 #define ADDR_NONE      0
 
 
-typedef enum {
-    TWO_OPERANDS,
-    ONE_OPERAND,
-    NO_OPERANDS
-} OperandNum;
-
-
 typedef struct {
     char *name;
     int opcode;
     int funct;
-    OperandNum opr_num;
+    int opr_num;
     int legal_src;
     int legal_dst;
 } CommandInfo;
