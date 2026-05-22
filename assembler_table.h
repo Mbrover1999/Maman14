@@ -18,6 +18,8 @@ typedef struct {
 typedef struct {
     Symbol symbols[MAX_SYMBOLS];
     int count;
+    int ICF;
+    int DCF;
 } AssemblerTable;
 
 /* functions */

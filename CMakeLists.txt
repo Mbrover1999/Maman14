@@ -10,4 +10,5 @@ add_executable(mm14 pre_assembly.c
         assembler_table.c
         assembler_table.h
         opcode_list.c
-        parser.c)
+        parser.c
+        first_pass.h)

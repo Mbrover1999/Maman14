@@ -36,6 +36,7 @@ void trim(char *str);
 int is_valid_label(const char *label, MacroList *macros);
 DirectiveType is_valid_directive(const char *directive);
 int parse_line(const char *line, ParsedLine *result, MacroList *macros);
+int get_addressing_mode(const char *operand);
 
 
 
