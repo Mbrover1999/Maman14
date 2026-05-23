@@ -6,7 +6,6 @@
 typedef struct {
     int value;
     int address;
-    char ARE;
 } MemoryWord;
 
 typedef struct {
@@ -14,9 +13,7 @@ typedef struct {
     int count;
 } MemoryImage;
 
-void add_word(MemoryImage *image,
-              int value,
-              int address,
-              char ARE);
+void add_word(MemoryImage *image,int value,int address,char ARE);
+MemoryWord *find_by_address(MemoryImage *image, int address);
 
 #endif

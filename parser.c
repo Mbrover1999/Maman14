@@ -322,6 +322,7 @@ int parse_directive_operands(char *rest, ParsedLine *result, MacroList *macros) 
                 return 0;
             }
 
+            strcpy(result->operands[result->operand_count], token);
             result->operand_count++;
             token = strtok(NULL, ",");
         }

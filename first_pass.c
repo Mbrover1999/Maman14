@@ -6,7 +6,15 @@
 #include "assembler_table.h"
 #include "opcode_list.h"
 
-int encode_first_word(const ParsedLine *parsed) {
+int get_addressing_type(int mode) {
+    if (mode == ADDR_IMMEDIATE) return 0;
+    if (mode == ADDR_DIRECT) return 1;
+    if (mode == ADDR_RELATIVE) return 2;
+    if (mode == ADDR_REGISTER) return 3;
+    return 0;
+}
+
+int encode_first_pass(const ParsedLine *parsed) {
     const CommandInfo *cmd = find_command(parsed->command);
 
     int word = 0;
@@ -20,10 +28,14 @@ int encode_first_word(const ParsedLine *parsed) {
         dst_mode = get_addressing_mode(parsed->operands[0]);
     }
 
-    word |= (cmd->opcode << 11);
-    word |= (src_mode << 7);
-    word |= (dst_mode << 3);
-    word |= 4; /* ARE = A */
+    word |= (cmd->opcode << 8);
+    if (cmd->funct != -1) {
+        word |= (cmd->funct << 4);
+    }else {
+        word |= 0 << 4;
+    }
+    word |= (get_addressing_type(src_mode) << 2);
+    word |= get_addressing_type(dst_mode);
 
     return word;
 }
@@ -78,18 +90,12 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
 
                     for (;str[i] != '"'; i++) {
 
-                        add_word(data_image,
-                                 str[i],
-                                 DC,
-                                 'A');
+                        add_word(data_image, str[i],DC,'A');
 
                         DC++;
                     }
 
-                    add_word(data_image,
-                             '\0',
-                             DC,
-                             'A');
+                    add_word(data_image,0,DC,'A');
 
                     DC++;
 
@@ -112,7 +118,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
                     ATTR_EXTERN)) {
                     printf("Duplicated symbol in line: %d", line_num);
                     error_flag = 1;
-                };
+                }
 
                 continue;
             }
@@ -137,7 +143,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
                    }
             }
 
-            first_word = encode_first_word(&parsed);
+            first_word = encode_first_pass(&parsed);
 
             add_word(code_image, first_word, IC, 'A');
 
