@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "assembler_table.h"
-#include "helpers/mem_img.h"
-#include "helpers/opcode_list.h"
-#include "helpers/parser.h"
+#include "../headers/assembler_table.h"
+#include "../headers/mem_img.h"
+#include "../headers/opcode_list.h"
+#include "../headers/parser.h"
 
 
 int encode_second_pass(const char *operand, AssemblerTable *table,

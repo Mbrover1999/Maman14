@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "helpers/macro_helper.h"
+#include "../headers/macro_helper.h"
 
 const char *reserved_key_words[] = {
     /* commands */

@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "helpers/parser.h"
-#include "helpers/first_pass.h"
-#include "helpers/mem_img.h"
-#include "assembler_table.h"
-#include "helpers/opcode_list.h"
+#include "../headers/parser.h"
+#include "../headers/first_pass.h"
+#include "../headers/mem_img.h"
+#include "../headers/assembler_table.h"
+#include "../headers/opcode_list.h"
 
 int get_addressing_type(int mode) {
     if (mode == ADDR_IMMEDIATE) return 0;

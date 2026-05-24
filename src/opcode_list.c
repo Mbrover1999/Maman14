@@ -1,5 +1,5 @@
 #include <string.h>
-#include "helpers/opcode_list.h"
+#include "../headers/opcode_list.h"
 
 static CommandInfo commands[] = {
 

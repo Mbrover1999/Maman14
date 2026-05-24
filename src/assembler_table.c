@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "assembler_table.h"
+#include "../headers/assembler_table.h"
 
 void init_assembler_table(AssemblerTable *table) {
     table->count = 0;

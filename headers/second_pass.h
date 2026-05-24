@@ -2,7 +2,7 @@
 #define SECOND_PASS_H
 #include <stdio.h>
 
-#include "../assembler_table.h"
+#include "assembler_table.h"
 #include "macro_helper.h"
 #include "mem_img.h"
 

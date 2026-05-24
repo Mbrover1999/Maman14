@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "assembler_table.h"
-#include "helpers/macro_helper.h"
-#include "helpers/mem_img.h"
-#include "helpers/first_pass.h"
-#include "helpers/output_files.h"
-#include "helpers/second_pass.h"
+#include "../headers/assembler_table.h"
+#include "../headers/macro_helper.h"
+#include "../headers/mem_img.h"
+#include "../headers/first_pass.h"
+#include "../headers/output_files.h"
+#include "../headers/second_pass.h"
 
 
 void print_binary_word(FILE *out, int value) {

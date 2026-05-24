@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "helpers/output_files.h"
+#include "../headers/output_files.h"
 
 void write_object_file(const char *filename,
                        AssemblerTable *table,
