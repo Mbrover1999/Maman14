@@ -43,7 +43,7 @@ void print_debug_binary(MemoryImage *code_image,
 
 
 int main(void) {
-    FILE *file = fopen("../example.txt", "r");
+    FILE *file = fopen("../input/example.txt", "r");
     FILE *out = fopen("../results/answer.txt", "w");
 
     if (file == NULL || out == NULL) {
