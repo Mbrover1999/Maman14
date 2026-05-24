@@ -12,4 +12,6 @@ add_executable(mm14
         parser.c
         mem_img.c
         second_pass.c
+        output_files.c
+        pre_assembly.h
 )

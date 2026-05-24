@@ -50,13 +50,12 @@ void update_data_symbols(AssemblerTable *table, int ICF) {
 }
 
 void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
-    MemoryImage *code_image, MemoryImage *data_image) {
+    MemoryImage *code_image, MemoryImage *data_image, int *error_flag) {
     char line[256];
     ParsedLine parsed;
     int line_num = 0;
     int DC = 0;
     int IC = 100;
-    int error_flag = 0;
     int L = 0;
     code_image->count = 0;
     data_image->count = 0;
@@ -65,7 +64,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
         line_num++;
         if (!parse_line(line, &parsed, macros)) {
             printf("Parser error in line num: %d\n", line_num);
-            error_flag = 1;
+            *error_flag = 1;
             continue;
         }
         if (parsed.type == LINE_COMMENT || parsed.type == LINE_ERROR) {
@@ -79,7 +78,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
                     if (!add_symbol(table,parsed.label,DC,
                    ATTR_DATA)) {
                         printf("Duplicated symbol in line: %d", line_num);
-                        error_flag = 1;
+                        *error_flag = 1;
                    };
                 }
                 if (directive == DIR_STRING) {
@@ -117,7 +116,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
                 if (!add_symbol(table,parsed.operands[0],0,
                     ATTR_EXTERN)) {
                     printf("Duplicated symbol in line: %d", line_num);
-                    error_flag = 1;
+                    *error_flag = 1;
                 }
 
                 continue;
@@ -139,7 +138,7 @@ void first_pass(FILE *in, AssemblerTable *table,MacroList *macros,
                 if (!add_symbol(table,parsed.label,IC,
                    ATTR_CODE)) {
                     printf("Duplicated symbol in line: %d", line_num);
-                    error_flag = 1;
+                    *error_flag = 1;
                    }
             }
 

@@ -8,6 +8,9 @@ void add_word(MemoryImage *image,
 
     image->words[image->count].value = value;
     image->words[image->count].address = address;
+    image->words[image->count].ARE = ARE;
+    image->words[image->count].symbol_name[0] = '\0';
+
 
     image->count++;
 }

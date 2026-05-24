@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "assembler_table.h"
 #include "mem_img.h"
@@ -8,7 +9,8 @@
 
 
 int encode_second_pass(const char *operand, AssemblerTable *table,
-    int current_address,int *ARE, int *error_flag, int line_num) {
+    int current_address,char *ARE, int *error_flag, int line_num
+    ,MemoryWord *word) {
     int value;
     int mode = get_addressing_mode(operand);
 
@@ -32,9 +34,13 @@ int encode_second_pass(const char *operand, AssemblerTable *table,
             *error_flag = 1;
             return 0;
         }
+        printf("DEBUG %s attr=%d\n",
+           symbol->name,
+           symbol->attributes);
 
         if (symbol->attributes & ATTR_EXTERN) {
             *ARE = 'E';
+            strcpy(word->symbol_name, symbol->name);
             return 0;
         }
 
@@ -110,7 +116,7 @@ void second_pass(FILE *in,AssemblerTable *table,MacroList *macros,
             int operand_address = IC + 1;
 
             for (; i < parsed.operand_count; i++) {
-                int ARE;
+                char ARE;
                 int value;
                 MemoryWord *word = NULL;
 
@@ -123,9 +129,10 @@ void second_pass(FILE *in,AssemblerTable *table,MacroList *macros,
                     }
 
                 value = encode_second_pass(parsed.operands[i],table,operand_address,&ARE,
-                   error_flag, line_num);
+                   error_flag, line_num, word);
 
                 word->value = value;
+                word->ARE = ARE;
 
                 operand_address++;
 

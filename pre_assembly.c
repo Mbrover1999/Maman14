@@ -6,6 +6,7 @@
 #include "macro_helper.h"
 #include "mem_img.h"
 #include "first_pass.h"
+#include "output_files.h"
 #include "second_pass.h"
 
 
@@ -68,10 +69,22 @@ int main(void) {
     }
 
     first_pass(out, &table,&macros,
-    &code_image, &data_image);
+    &code_image, &data_image, &error_flag);
     print_assembler_table(&table);
     rewind(out);
     second_pass(out, &table, &macros, &code_image, &error_flag);
+
+    if (!error_flag) {
+        write_object_file("../lol.ob",
+                          &table,
+                          &code_image,
+                          &data_image);
+        write_entries_file("../example.ent", &table);
+        write_externals_file("../example.ext", &code_image);
+
+    }
+
+
     print_debug_binary(&code_image, &data_image, &table);
     free_macro_list(&macros);
     fclose(file);

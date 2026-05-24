@@ -2,10 +2,13 @@
 #define MEM_IMG_H
 
 #define MAX_IMAGE_SIZE 4096
+#include "parser.h"
 
 typedef struct {
     int value;
     int address;
+    char ARE;
+    char symbol_name[MAX_LABEL_LEN];
 } MemoryWord;
 
 typedef struct {
