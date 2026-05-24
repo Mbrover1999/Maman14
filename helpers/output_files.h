@@ -1,7 +1,7 @@
 #ifndef OUTPUT_FILES_H
 #define OUTPUT_FILES_H
 
-#include "assembler_table.h"
+#include "../assembler_table.h"
 #include "mem_img.h"
 
 void write_object_file(const char *filename,
