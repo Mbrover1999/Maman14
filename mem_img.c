@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "mem_img.h"
+#include "helpers/mem_img.h"
 
 void add_word(MemoryImage *image,
               int value,

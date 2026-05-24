@@ -3,11 +3,11 @@
 #include <string.h>
 
 #include "assembler_table.h"
-#include "macro_helper.h"
-#include "mem_img.h"
-#include "first_pass.h"
-#include "output_files.h"
-#include "second_pass.h"
+#include "helpers/macro_helper.h"
+#include "helpers/mem_img.h"
+#include "helpers/first_pass.h"
+#include "helpers/output_files.h"
+#include "helpers/second_pass.h"
 
 
 void print_binary_word(FILE *out, int value) {
@@ -44,7 +44,7 @@ void print_debug_binary(MemoryImage *code_image,
 
 int main(void) {
     FILE *file = fopen("../example.txt", "r");
-    FILE *out = fopen("../answer.txt", "w");
+    FILE *out = fopen("../results/answer.txt", "w");
 
     if (file == NULL || out == NULL) {
         printf("No file found exiting program!");
@@ -62,7 +62,7 @@ int main(void) {
     int error_flag = 0;
     fclose(out);
 
-    out = fopen("../answer.txt", "r");
+    out = fopen("../results/answer.txt", "r");
     if (out == NULL) {
         printf("Cannot open answer.txt for reading\n");
         return 1;
@@ -75,12 +75,12 @@ int main(void) {
     second_pass(out, &table, &macros, &code_image, &error_flag);
 
     if (!error_flag) {
-        write_object_file("../lol.ob",
+        write_object_file("../results/lol.ob",
                           &table,
                           &code_image,
                           &data_image);
-        write_entries_file("../example.ent", &table);
-        write_externals_file("../example.ext", &code_image);
+        write_entries_file("../results/example.ent", &table);
+        write_externals_file("../results/example.ext", &code_image);
 
     }
 

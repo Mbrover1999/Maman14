@@ -2,7 +2,7 @@
 #define MEM_IMG_H
 
 #define MAX_IMAGE_SIZE 4096
-#include "../parser.h"
+#include "parser.h"
 
 typedef struct {
     int value;

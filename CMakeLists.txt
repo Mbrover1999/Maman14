@@ -13,5 +13,5 @@ add_executable(mm14
         mem_img.c
         second_pass.c
         output_files.c
-        pre_assembly.h
+        helpers/pre_assembly.h
 )

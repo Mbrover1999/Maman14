@@ -3,14 +3,14 @@
 #include <string.h>
 
 #include "assembler_table.h"
-#include "mem_img.h"
-#include "opcode_list.h"
-#include "parser.h"
+#include "helpers/mem_img.h"
+#include "helpers/opcode_list.h"
+#include "helpers/parser.h"
 
 
 int encode_second_pass(const char *operand, AssemblerTable *table,
-    int current_address,char *ARE, int *error_flag, int line_num
-    ,MemoryWord *word) {
+                       int current_address,char *ARE, int *error_flag, int line_num
+                       ,MemoryWord *word) {
     int value;
     int mode = get_addressing_mode(operand);
 

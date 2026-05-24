@@ -1,9 +1,9 @@
 #include <string.h>
-#include "parser.h"
+#include "helpers/parser.h"
 #include <ctype.h>
 #include <stdlib.h>
-#include "macro_helper.h"
-#include "opcode_list.h"
+#include "helpers/macro_helper.h"
+#include "helpers/opcode_list.h"
 
 void trim(char *str) {
 
