@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "../headers/assembler_table.h"
 #include "../headers/macro_helper.h"
@@ -9,86 +8,92 @@
 #include "../headers/output_files.h"
 #include "../headers/second_pass.h"
 
+int assemble_file(const char *input_path)
+{
+    FILE *file = NULL;
+    FILE *out = NULL;
+    /*Stating our data structures*/
+    MacroList macros;
+    AssemblerTable table;
+    MemoryImage code_image;
+    MemoryImage data_image;
+    int error_flag;
 
-void print_binary_word(FILE *out, int value) {
-    int i;
-
-    for (i = 11; i >= 0; i--) {
-        fputc((value & (1 << i)) ? '1' : '0', out);
-    }
-}
-
-void print_debug_binary(MemoryImage *code_image,
-                        MemoryImage *data_image,
-                        AssemblerTable *table) {
-    int i;
-
-    printf("CODE:\n");
-
-    for (i = 0; i < code_image->count; i++) {
-        printf("%04d ", code_image->words[i].address);
-        print_binary_word(stdout, code_image->words[i].value);
-        printf("\n");
-    }
-
-    printf("DATA:\n");
-
-    for (i = 0; i < data_image->count; i++) {
-        printf("%04d ", table->ICF + data_image->words[i].address);
-        print_binary_word(stdout, data_image->words[i].value);
-        printf("\n");
-    }
-}
-
-
-
-int main(void) {
-    FILE *file = fopen("../input/example.txt", "r");
-    FILE *out = fopen("../results/answer.txt", "w");
+    printf("Starting assemble on: '%s'\n", input_path);
+    file = fopen(input_path, "r");
+    out = fopen("results/ps.as", "w");
 
     if (file == NULL || out == NULL) {
         printf("No file found exiting program!");
         return 1;
     }
-    MacroList macros;
-    AssemblerTable table;
-    MemoryImage code_image;
-    MemoryImage data_image;
+    printf("Starting translation......\n");
 
+    printf("Expanding macros......\n");
+
+    /*Initiate our data structures*/
     init_macro_list(&macros);
     init_assembler_table(&table);
 
-    expand_macros(file, out, &macros);
-    int error_flag = 0;
+    error_flag = 0;
+
+    /*Again not a requirement but felt wrong to not check*/
+    if (!expand_macros(file, out, &macros)) {
+        error_flag = 1;
+    }
+
     fclose(out);
 
-    out = fopen("../results/answer.txt", "r");
+    out = fopen("results/ps.as", "r");
+
     if (out == NULL) {
-        printf("Cannot open answer.txt for reading\n");
+        printf("Cannot open ps.as for reading\n");
         return 1;
     }
 
+    printf("Starting first pass......\n");
+
+    /*As stated in the printf, we start our passes here*/
     first_pass(out, &table,&macros,
     &code_image, &data_image, &error_flag);
-    print_assembler_table(&table);
     rewind(out);
+    printf("Starting second pass......\n");
     second_pass(out, &table, &macros, &code_image, &error_flag);
-
+    /*We don't create files if an error was found*/
     if (!error_flag) {
-        write_object_file("../results/lol.ob",
+        write_object_file("results/ps.ob",
                           &table,
                           &code_image,
                           &data_image);
-        write_entries_file("../results/example.ent", &table);
-        write_externals_file("../results/example.ext", &code_image);
+        write_entries_file("results/ps.ent", &table);
+        write_externals_file("results/ps.ext", &code_image);
+        printf("Done!\n");
 
+    }else {
+        printf("Fatal error, file were not created!\n");
     }
-
-
-    print_debug_binary(&code_image, &data_image, &table);
     free_macro_list(&macros);
     fclose(file);
     fclose(out);
+    return 0;
+}
+
+int main(int argc, char *argv[]) {
+    int i;
+
+    if (argc < 2) {
+
+        printf("Usage: %s <file1.as> <file2.as> ...\n", argv[0]);
+        return 1;
+    }
+
+    i = 1;
+
+    for (; i < argc; i++) {
+
+        assemble_file(argv[i]);
+    }
+
     return 0;
 }
 

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "../headers/mem_img.h"
 
+/*Add word to the memory image, data_image and code_image share this type*/
 void add_word(MemoryImage *image,
               int value,
               int address,
@@ -14,7 +15,7 @@ void add_word(MemoryImage *image,
 
     image->count++;
 }
-
+/*Find and return a word by its address*/
 MemoryWord *find_by_address(MemoryImage *image, int address) {
     int i = 0;
     for (; i < image->count; i++) {

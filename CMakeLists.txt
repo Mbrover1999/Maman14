@@ -14,4 +14,6 @@ add_executable(mm14
         src/second_pass.c
         src/output_files.c
         headers/pre_assembly.h
+        src/util.c
+        headers/util.h
 )

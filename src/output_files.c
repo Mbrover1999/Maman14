@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include "../headers/output_files.h"
 
+/*Write to .ob file*/
 void write_object_file(const char *filename,
-                       AssemblerTable *table,
-                       MemoryImage *code_image,
-                       MemoryImage *data_image) {
-    FILE *out;
+    AssemblerTable *table,MemoryImage *code_image,MemoryImage *data_image) {
+    FILE *out = NULL;
     int i;
 
     out = fopen(filename, "w");
@@ -16,15 +15,18 @@ void write_object_file(const char *filename,
     }
 
     fprintf(out, "%d %d\n", table->ICF - 100, table->DCF);
-
+    /*Write code lines to .ob file*/
     for (i = 0; i < code_image->count; i++) {
+        /*Use X for hexidecimal representation fill a zero if needed and write to file*/
         fprintf(out, "%04d %03X %c\n",
                 code_image->words[i].address,
                 code_image->words[i].value & 0xFFF,
                 code_image->words[i].ARE);
     }
 
+    /*Write data lines to .ob file*/
     for (i = 0; i < data_image->count; i++) {
+        /*Use X for hexidecimal representation fill a zero if needed and write to file*/
         fprintf(out, "%04d %03X %c\n",
                 table->ICF + data_image->words[i].address,
                 data_image->words[i].value & 0xFFF,
@@ -33,6 +35,8 @@ void write_object_file(const char *filename,
 
     fclose(out);
 }
+
+/*Write to .ent file*/
 void write_entries_file(const char *filename, AssemblerTable *table) {
     FILE *out;
     int i;
@@ -42,7 +46,7 @@ void write_entries_file(const char *filename, AssemblerTable *table) {
     if (out == NULL) {
         return;
     }
-
+    /*Use X for hexidecimal representation fill a zero if needed and write to file*/
     for (i = 0; i < table->count; i++) {
         if (table->symbols[i].attributes & ATTR_ENTRY) {
             fprintf(out, "%s %04d\n",
@@ -59,6 +63,7 @@ void write_entries_file(const char *filename, AssemblerTable *table) {
     }
 }
 
+/*Write to .ext file*/
 void write_externals_file(const char *filename, MemoryImage *code_image) {
     FILE *out;
     int i;
@@ -68,7 +73,7 @@ void write_externals_file(const char *filename, MemoryImage *code_image) {
     if (out == NULL) {
         return;
     }
-
+    /*Use X for hexidecimal representation fill a zero if needed and write to file*/
     for (i = 0; i < code_image->count; i++) {
         if (code_image->words[i].ARE == 'E') {
             fprintf(out, "%s %04d\n",

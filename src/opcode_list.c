@@ -74,12 +74,14 @@ static CommandInfo commands[] = {
         ADDR_NONE}
 };
 
+/*Get size of our command struct*/
 #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
 
 CommandInfo *find_command(const char *name) {
     int i = 0;
 
-    for (; i < COMMAND_COUNT; i++) {
+    for (; i < (int) COMMAND_COUNT; i++) {
+        /*Return if found*/
         if (strcmp(commands[i].name, name) == 0) {
             return &commands[i];
         }
